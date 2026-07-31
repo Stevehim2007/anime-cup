@@ -20,36 +20,17 @@ const types = {
 };
 
 const server = createServer(async (req, res) => {
-  if (!req.url || !['GET', 'HEAD'].includes(req.method)) {
-    res.writeHead(405, { Allow: 'GET, HEAD' });
-    res.end();
-    return;
-  }
-
+  if (!req.url || !['GET', 'HEAD'].includes(req.method)) { res.writeHead(405); res.end(); return; }
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
     const file = resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
-    if (!file.startsWith(rootSlash) && file !== root) {
-      res.writeHead(403);
-      res.end('Forbidden');
-      return;
-    }
+    if (!file.startsWith(rootSlash) && file !== root) { res.writeHead(403); res.end(); return; }
     const info = await stat(file);
     if (!info.isFile()) throw new Error('not a file');
     const body = req.method === 'HEAD' ? null : await readFile(file);
-    res.writeHead(200, {
-      'Content-Type': types[extname(file).toLowerCase()] || 'application/octet-stream',
-      'Content-Length': info.size,
-      'Cache-Control': 'no-cache',
-    });
+    res.writeHead(200, { 'Content-Type': types[extname(file).toLowerCase()] || 'application/octet-stream', 'Content-Length': info.size, 'Cache-Control': 'no-cache' });
     res.end(body);
-  } catch {
-    res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
-    res.end('Not found');
-  }
+  } catch { res.writeHead(404); res.end('Not found'); }
 });
 
-server.listen(port, () => {
-  console.log(`ANIME CUP local server: http://127.0.0.1:${port}/`);
-  console.log('Anime data and cover images from the public Bangumi API (CDN supports CORS).');
-});
+server.listen(port, () => { console.log(`ANIME CUP: http://127.0.0.1:${port}/`); });

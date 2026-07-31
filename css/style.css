@@ -1041,6 +1041,19 @@ svg { display: block; }
 }
 .anime-list { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
 
+/* 双评论框（16强） */
+.comment-dual { display:flex; gap:12px; margin-top:14px; }
+.cmt-side { flex:1; min-width:0; }
+.cmt-side label { display:block; font-size:13px; font-weight:700; margin-bottom:6px; color:var(--acc1); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cmt-side textarea {
+  width:100%; min-height:60px; padding:10px 14px;
+  border-radius:var(--r-md); background:var(--panel-2); border:1px solid var(--line);
+  font-size:14px; color:var(--txt); resize:vertical; outline:none;
+  font-family:var(--font-cn);
+}
+.cmt-side textarea:focus { border-color:var(--acc1); }
+.cmt-side textarea::placeholder { color:var(--dim2); }
+
 /* 配对阶段 */
 .pairing-screen { padding-top: 20px; }
 .pair-hint { text-align:center; color:var(--dim); font-size:14px; margin:10px 0 16px; }
